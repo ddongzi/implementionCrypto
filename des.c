@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
 
 #define BLOCKSIZE 64
 #define KEYSIZE 56
@@ -163,7 +164,7 @@ void left_cycle_shift(bit_t a[], int n, int current_round);
 
 void pc2(const bit_t last_left_shift[], bit_t round_key[]);
 
-int bit_to_byte(const bit_t a[]);
+char bit_to_byte(const bit_t a[]);
 
 void ulong_to_bit(unsigned long x,bit_t a[])
 {
@@ -194,7 +195,7 @@ void des_encrypt(unsigned long key, unsigned long plain_text,char res[]) {
 void ip(bit_t bit_arr[]) {
     int i;
     bit_t tmp[BLOCKSIZE];
-    
+
     //memcpy(tmp,bit_arr,BLOCKSIZE);
 
     for (i=0;i<BLOCKSIZE;i++){
@@ -360,7 +361,7 @@ void bitarr_to_chararr(bit_t a[], char res[]) {
         for (int j = 0; j < 8; j++) {
             tmp[j] = a[i + j];
         }
-        res[i / 8] = (char)bit_to_byte(tmp);
+        res[i / 8] = bit_to_byte(tmp);
     }
 
 }
@@ -395,11 +396,13 @@ void pc2(const bit_t last_left_shift[], bit_t round_key[]) {
     }
 }
 
-int bit_to_byte(const bit_t a[]) {
+char bit_to_byte(const bit_t a[]) {
     int i = 0;
     int d;
+    char c;
     for (i = 0; i < 8; i++) {
-        d += (int) (a[i] * pow(2, i));
+        d += (int)(a[i] * pow(2, i));
     }
-    return d;
+    c=d&0xff;
+    return c;
 }

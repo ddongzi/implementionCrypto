@@ -1,12 +1,16 @@
 #include <stdio.h>
+#include "aes.h"
 
-#include "func.h"
 int main() {
     printf("Hello, World! %x\n",'\x00'+224);
-    unsigned long key=188;
-    unsigned long pt=233;
-    char ct[8];
-    des_encrypt(key,pt,ct);
+    unsigned char *s="HelloHelloHello.";
+    unsigned char *k="HelloHelloHello.";
+    int i;
+
+    s=aes_enc(s,k);
+    for (i=0;i<16;i++){
+        printf("%x",s[i]);
+    }
     return 0;
 }
 
