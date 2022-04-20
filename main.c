@@ -1,20 +1,14 @@
 #include <stdio.h>
-#include "sm4.h"
+#include "zuc.h"
 
 int main() {
     printf("Hello, World! %x\n",'\x00'+224);
-    unsigned char *s="HelloHelloHello.";
-    unsigned char *k="HelloHelloHello.";
-    int i;
-    unsigned char *t;
-    for (i=0;i<16;i++){
-        printf("%x",s[i]);
-    }
-    putchar('\n');
-    t=sm4_enc(s,k);
-    for (i=0;i<16;i++){
-        printf("%x ",t[i]);
-    }
+    uint8_t k[16]={'H'};
+    uint8_t iv[16]={'O'};
+    printf("In : 16 key: ");
+    scanf("%s",k);
+    zuc(k,iv);
+
     return 0;
 }
 
