@@ -1,13 +1,18 @@
 #include <stdio.h>
-#include "zuc.h"
+#include "md5.h"
+#include <string.h>
 
 int main() {
-    printf("Hello, World! %x\n",'\x00'+224);
-    uint8_t k[16]={'H'};
-    uint8_t iv[16]={'O'};
-    printf("In : 16 key: ");
-    scanf("%s",k);
-    zuc(k,iv);
+    printf("Hello, World! %x\n", '\x00' + 224);
+
+    char s[BUFSIZ];
+    uint32_t *r;
+    printf("In : ");
+    scanf("%s", s);
+    r=md5(s, strlen(s));
+    for (int i = 0; i < 4; ++i) {
+        printf("%x ",r[i]);
+    }
 
     return 0;
 }
