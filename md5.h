@@ -7,6 +7,6 @@
 
 #endif //MYCRYPTO_MD5_H
 #include <stdint.h>
-
+#include <string.h>
 #define ROT_LEFT_SHIFT(x,n) (x<<n|x>>(32-n))
 uint32_t *md5(char m[],int n) ;

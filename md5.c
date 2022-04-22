@@ -114,7 +114,7 @@ uint32_t *md5(char m[],int n) {
     uint32_t (*g)(uint32_t, uint32_t, uint32_t);
     uint32_t (*p)(uint32_t);
     uint32_t a,b,c,d;
-    uint32_t *res= malloc(4);
+    uint32_t *res= malloc(16);
     int i, k,l;
     int L;
     pad(m,n,BUF,&L);

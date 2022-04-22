@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "md5.h"
+#include "sha.h"
 #include <string.h>
 
 int main() {
@@ -9,8 +9,8 @@ int main() {
     uint32_t *r;
     printf("In : ");
     scanf("%s", s);
-    r=md5(s, strlen(s));
-    for (int i = 0; i < 4; ++i) {
+    r=sha(s, strlen(s));
+    for (int i = 0; i < 5; ++i) {
         printf("%x ",r[i]);
     }
 
