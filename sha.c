@@ -8,12 +8,6 @@
 
 uint32_t A=0x67452301,B=0xEFCDAB89,C=0x98BADCFE,D=0x10325476,E=0xC3D2E1F0;
 
-#define ROT_LEFT_SHIFT(x,n) ((x)<<(n)|(x)>>(32-(n)))
-
-#define F(b,c,d)    (((b)&(c))|((~(b))&(d)))
-#define G(b,c,d)    ((b)^(c)^(d))
-#define H(b,c,d)    (((b)&(c))|((b)&(d))|((c)&(d)))
-#define I(b,c,d)    ((b)^(c)^(d))
 
 void wexpension(uint32_t Y[16],uint32_t W[80])
 {
