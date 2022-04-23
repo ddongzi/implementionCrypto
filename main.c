@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "mac.h"
-#include "sha.h"
+#include "sm3.h"
 #include <string.h>
 #include <stdint.h>
 
@@ -13,14 +12,9 @@ int main() {
     int i;
     printf("key :");
     scanf("%s", key);
-    printf("msg :");
-    scanf("%s", m);
 
-    r=hmac_sha1(key,m);
-
-    for (i=0;i<5;i++){
-        printf("%0x ",r[i]);
-    }
+    update(key);
+    hexdigest();
 
     return 0;
 }
