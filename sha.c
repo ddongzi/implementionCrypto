@@ -6,8 +6,29 @@
 #include <malloc.h>
 #include "sha.h"
 
-uint32_t A=0x67452301,B=0xEFCDAB89,C=0x98BADCFE,D=0x10325476,E=0xC3D2E1F0;
+uint32_t H[5]={0x67452301,0xEFCDAB89,0x98BADCFE,0x10325476,0xC3D2E1F0};
 
+/*
+typedef void (*HashInit)(void *ctx);
+typedef void (*HashUpdate)(void *data);
+typedef void (*HashDigest)(void *digest);
+
+typedef struct {
+    uint32_t H[5];
+    HashInit init;
+    HashUpdate update;
+    HashDigest digest;
+}SHA1;
+*/
+
+void init()
+{
+    H[0] = 0x67452301;
+    H[1] = 0xEFCDAB89;
+    H[2] = 0x98BADCFE;
+    H[3] = 0x10325476;
+    H[4] = 0xC3D2E1F0;
+}
 
 void wexpension(uint32_t Y[16],uint32_t W[80])
 {
@@ -41,20 +62,28 @@ void pad(char m[],uint64_t n,uint32_t buf[],size_t *Lp)
     buf[L*16-2]=(uint32_t )(n>>32);
     buf[L*16-1]=(uint32_t )n;
     *Lp=L;
+
+    for (int lo = 0; lo < L*16; ++lo) {
+        printf("%x ",buf[lo]);
+    }
+    putchar('\n');
 }
 
-uint32_t *sha(char m[],uint64_t n)
+/**
+ *
+ * @param m ...'\0'
+ */
+void update(char m[])
 {
     uint32_t Y[16];
     uint32_t W[80];
-    int step=0,k,l;
-    uint32_t tmp,*res;
-    uint32_t a=A,b=B,c=C,d=D,e=E;
+    uint64_t n= strlen(m);
+    int step,k,l;
+    uint32_t tmp;
+    uint32_t a=H[0],b=H[1],c=H[2],d=H[3],e=H[4];
     uint32_t BUF[BUFSIZ];
     size_t L;
     pad(m,n,BUF,&L);
-
-    res=malloc(16);
 
     for (l=0;l<L;l++){
 
@@ -63,7 +92,8 @@ uint32_t *sha(char m[],uint64_t n)
         }
         wexpension(Y,W);
 
-
+        a=H[0],b=H[1],c=H[2],d=H[3],e=H[4];
+        step=0;
         while (step<80){
             switch (step/20) {
                 case 0:
@@ -93,25 +123,49 @@ uint32_t *sha(char m[],uint64_t n)
             c=b;
             b=a;
             a=tmp;
-
             step++;
         }
+
+        H[0]+=a;
+        H[1]+=b;
+        H[2]+=c;
+        H[3]+=d;
+        H[4]+=e;
 
     }
 
 
-    A+=a;
-    B+=b;
-    C+=c;
-    D+=d;
-    E+=e;
-
-    res[0]=A;
-    res[1]=B;
-    res[2]=C;
-    res[3]=D;
-    res[4]=E;
-
+}
+/**
+ * printf("%x", u32);
+ * @return
+ */
+ uint32_t *hexdigest()
+{
+    int k;
+    uint32_t *res;
+    res=malloc(20);
+    for (k=0;k<5;k++){
+        res[k]=H[k];
+    }
+    putchar('\n');
     return res;
-
+}
+/**
+ *
+ * @return
+ */
+char *digest()
+{
+    char *res= malloc(20);
+    uint32_t tmp;
+    int k;
+    for(k=0;k<20;k+=4){
+        tmp=H[k/4];
+        res[k]=tmp>>24&0xff;
+        res[k+1]=tmp>>16&0xff;
+        res[k+2]=tmp>>8&0xff;
+        res[k+3]=tmp&0xff;
+    }
+    return res;
 }

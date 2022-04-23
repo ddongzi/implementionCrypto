@@ -14,5 +14,7 @@
 #define G(b,c,d)    ((b)^(c)^(d))
 #define H(b,c,d)    (((b)&(c))|((b)&(d))|((c)&(d)))
 #define I(b,c,d)    ((b)^(c)^(d))
-
-uint32_t *sha(char m[],uint64_t n);
+void init();
+void update(char m[]);
+uint32_t *hexdigest();
+char *digest();
