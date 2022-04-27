@@ -10,6 +10,7 @@
 #define P1(x)   ((x)^(ROT_LEFT_SHIFT((x),15))^(ROT_LEFT_SHIFT((x),23)))
 #define P0(x)   ((x)^(ROT_LEFT_SHIFT((x),9))^(ROT_LEFT_SHIFT((x),17)))
 #include <stdint.h>
+void init();
 void update(char m[]);
 uint32_t *hexdigest();
 

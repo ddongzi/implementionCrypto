@@ -11,6 +11,18 @@
 uint32_t H[8]={    0x7380166f, 0x4914b2b9, 0x172442d7, 0xda8a0600,
                    0xa96f30bc, 0x163138aa, 0xe38dee4d, 0xb0fb0e4e};
 
+void init()
+{
+    H[0]=0x7380166f;
+    H[1]=0x4914b2b9;
+    H[2]=0x172442d7;
+    H[3]=0xda8a0600;
+    H[4]=0xa96f30bc;
+    H[5]=0x163138aa;
+    H[6]=0xe38dee4d;
+    H[7]=0xb0fb0e4e;
+
+}
 
 void pad(char m[],uint64_t n,uint32_t buf[],size_t *Lp)
 {
@@ -111,6 +123,7 @@ void update(char m[])
                 SS2= ROT_LEFT_SHIFT(ROT_LEFT_SHIFT(a,12)+e+ ROT_LEFT_SHIFT(T,step),7);
                 SS1=SS2^ ROT_LEFT_SHIFT(a,12);
             }
+            /*abcd*/
             {
                 d+=FF(a,b,c)+SS1+(W[step]^W[step+4]);
                 b= ROT_LEFT_SHIFT(b,9);
@@ -120,6 +133,7 @@ void update(char m[])
                 b=a;
                 a=tmp;
             }
+            /*efgh*/
             {
                 h+=GG(e,f,g)+SS2+W[step];
                 h= P0(h);
